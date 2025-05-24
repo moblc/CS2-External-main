@@ -1,0 +1,12 @@
+{
+  "name": "cs2-external",
+  "version": "1.0.0",
+  "description": "CS2 External tool",
+  "dependencies": [
+    "jsoncpp",
+    {
+      "name": "glfw3",
+      "features": ["shared"]
+    }
+  ]
+} 

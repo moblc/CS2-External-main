@@ -1,0 +1,116 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+# 添加权限配置
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        platform: [x64]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Install vcpkg dependencies
+      run: |
+        vcpkg install glfw3:${{ matrix.platform }}-windows --features=shared
+        vcpkg integrate install
+
+    - name: Build solution
+      run: |
+        msbuild /m /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} CS2External.sln
+
+    - name: Prepare artifacts
+      run: |
+        mkdir -p artifacts/${{ matrix.configuration }}
+        cp x64/${{ matrix.configuration }}/*.exe artifacts/${{ matrix.configuration }}/
+        # 创建标记文件以标识配置类型
+        echo "${{ matrix.configuration }}" > artifacts/${{ matrix.configuration }}/config.txt
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: CS2External-${{ matrix.configuration }}
+        path: artifacts/${{ matrix.configuration }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - name: Set release date
+      id: date
+      run: |
+        # 设置时区为 Asia/Shanghai 
+        export TZ="Asia/Shanghai"
+        # 为标签创建有效格式 (yyyy-mm-dd-hhmmss)
+        TAG_DATE=$(date +'%Y-%m-%d-%H%M%S')
+        echo "TAG_DATE=${TAG_DATE}" >> $GITHUB_ENV
+        
+        # 为发布名称创建中文格式
+        YEAR=$(date +'%Y')
+        MONTH=$(date +'%m')
+        DAY=$(date +'%d')
+        TIME=$(date +'%H:%M:%S')
+        echo "RELEASE_NAME=${YEAR}年${MONTH}月${DAY}日 ${TIME}" >> $GITHUB_ENV
+      
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: all-artifacts
+        
+    - name: Debug directory structure
+      run: |
+        echo "===== Directory Structure ====="
+        find all-artifacts -type f | sort
+        echo "============================="
+        
+    - name: Prepare release files
+      run: |
+        mkdir -p release-files
+        
+        # 处理 Debug 版本
+        if [ -d "all-artifacts/CS2External-Debug" ]; then
+          find all-artifacts/CS2External-Debug -name "*.exe" -type f -exec cp {} release-files/CS2External_Debug.exe \;
+          echo "Debug version copied to release-files/CS2External_Debug.exe"
+        else
+          echo "Warning: Debug directory not found!"
+        fi
+        
+        # 处理 Release 版本
+        if [ -d "all-artifacts/CS2External-Release" ]; then
+          find all-artifacts/CS2External-Release -name "*.exe" -type f -exec cp {} release-files/CS2External_Release.exe \;
+          echo "Release version copied to release-files/CS2External_Release.exe"
+        else
+          echo "Warning: Release directory not found!"
+        fi
+        
+        # 列出所有处理后的文件
+        echo "===== Release Files ====="
+        ls -la release-files/
+        echo "======================="
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release-files/*.exe
+        generate_release_notes: true
+        tag_name: v${{ env.TAG_DATE }}
+        name: "${{ env.RELEASE_NAME }} 发布版"
