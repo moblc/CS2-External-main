@@ -126,12 +126,13 @@ void Menu::MainMenu()
         ImGui::Begin("菜单", &Settings::showMenu, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
         ImGui::SetWindowSize(ImVec2(500, 600));
 
-        if (ImGui::BeginTabBar("Tab bar"))
+        ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+        if (ImGui::BeginTabBar("MainTabBar", tab_bar_flags))
         {
             ESP();
-			MISC();
+            MISC();
             Utility();
-			Aimbot();
+            Aimbot();
 
             ImGui::EndTabBar();
         }
