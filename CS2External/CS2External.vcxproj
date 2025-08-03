@@ -190,13 +190,7 @@
     <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lib\glfw3.dll" />
     <None Include="rcdata1.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Lib\glfw3.lib" />
-    <Library Include="Lib\glfw3dll.lib" />
-    <Library Include="Lib\glfw3_mt.lib" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CS2External.rc" />
