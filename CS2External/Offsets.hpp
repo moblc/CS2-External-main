@@ -53,7 +53,7 @@ namespace Offsets
 
 	namespace GameSceneNode
 	{
-		constexpr unsigned int boneMatrix = 0x1F0; //CUSTOM
+		constexpr unsigned int boneMatrix = 0x210; //CGameSceneNode + CSkeletonInstance -> m_modelState + 0x80
 		constexpr unsigned int m_vecOrigin = cs2_dumper::schemas::client_dll::CGameSceneNode::m_vecOrigin;
 		constexpr unsigned int m_vecAbsOrigin = cs2_dumper::schemas::client_dll::CGameSceneNode::m_vecAbsOrigin;
 	}
