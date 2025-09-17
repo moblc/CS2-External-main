@@ -34,13 +34,13 @@ namespace Offsets
 	{
 		constexpr unsigned int m_iHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iHealth;
 		constexpr unsigned int m_vLastSlopeCheckPos = cs2_dumper::schemas::client_dll::CBaseAnimGraph::m_vLastSlopeCheckPos;
-		constexpr unsigned int m_angEyeAngles = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_angEyeAngles;
-		constexpr unsigned int m_vecLastClipCameraPos = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_vecLastClipCameraPos;
+		constexpr unsigned int m_angEyeAngles = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_angEyeAngles;
+		constexpr unsigned int m_vecLastClipCameraPos = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_vecLastClipCameraPos;
 		constexpr unsigned int m_pGameSceneNode = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode;
 		constexpr unsigned int m_iTeamNum = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iTeamNum;
 		constexpr unsigned int m_szLastPlaceName = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_szLastPlaceName;
 		constexpr unsigned int m_fFlags = cs2_dumper::schemas::client_dll::C_BaseEntity::m_fFlags;
-		constexpr unsigned int m_iIDEntIndex = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_iIDEntIndex;
+		constexpr unsigned int m_iIDEntIndex = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_iIDEntIndex;
 		constexpr unsigned int m_flFlashMaxAlpha = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_flFlashMaxAlpha;
 		constexpr unsigned int m_aimPunchAngle = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_aimPunchAngle;
 		constexpr unsigned int m_iShotsFired = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_iShotsFired;
@@ -61,7 +61,7 @@ namespace Offsets
 	namespace BasePlayerPawn
 	{
 		constexpr unsigned int m_hController = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_hController;
-		constexpr unsigned int m_pClippingWeapon = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_pClippingWeapon;
+		constexpr unsigned int m_pClippingWeapon = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_pClippingWeapon;
 		constexpr unsigned int m_vOldOrigin = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_vOldOrigin;
 		constexpr unsigned int m_AttributeManager = cs2_dumper::schemas::client_dll::C_EconEntity::m_AttributeManager;
 		constexpr unsigned int m_entitySpottedState = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_entitySpottedState;
